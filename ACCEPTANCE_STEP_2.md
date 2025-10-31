@@ -1,0 +1,3 @@
+# ACCEPTANCE_STEP_2.md
+
+The domain model consists of three main aggregates: User (with properties Id, Email, PasswordHash, DisplayName, Role), ProjectListing (Id, Title, ShortDescription, Requirements, Tags, CreatedByUserId, Status, CreatedAt), and Application (Id, ProjectListingId, CandidateUserId, Message, Status, AppliedAt). Supporting elements include value objects Email and Tag, enums Role (Recruiter, Candidate), ListingStatus (Draft, Published, Closed), ApplicationStatus (Pending, Accepted, Rejected), repository interfaces IUserRepository, IProjectListingRepository, IApplicationRepository, and domain events ListingCreated and ApplicationSubmitted.
