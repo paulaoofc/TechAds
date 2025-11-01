@@ -26,4 +26,6 @@ public class ProjectListing
         Status = status;
         CreatedAt = createdAt;
     }
+
+    private ProjectListing() { }
 }

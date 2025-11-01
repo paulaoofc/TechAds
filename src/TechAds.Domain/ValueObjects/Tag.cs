@@ -8,4 +8,6 @@ public class Tag
     {
         Value = value;
     }
+
+    private Tag() { }
 }

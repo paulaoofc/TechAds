@@ -20,4 +20,6 @@ public class Application
         Status = status;
         AppliedAt = appliedAt;
     }
+
+    private Application() { }
 }

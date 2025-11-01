@@ -8,4 +8,6 @@ public class Email
     {
         Value = value;
     }
+
+    private Email() { }
 }
