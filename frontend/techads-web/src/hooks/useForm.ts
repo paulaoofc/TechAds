@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 interface FormState<T> {
   values: T;
@@ -25,25 +25,31 @@ export function useForm<T extends Record<string, unknown>>({
     isSubmitting: false,
   });
 
-  const handleChange = useCallback((field: keyof T) => (value: T[keyof T]) => {
-    setState((prev) => ({
-      ...prev,
-      values: {
-        ...prev.values,
-        [field]: value,
-      },
-    }));
-  }, []);
+  const handleChange = useCallback(
+    (field: keyof T) => (value: T[keyof T]) => {
+      setState((prev) => ({
+        ...prev,
+        values: {
+          ...prev.values,
+          [field]: value,
+        },
+      }));
+    },
+    []
+  );
 
-  const handleBlur = useCallback((field: keyof T) => () => {
-    setState((prev) => ({
-      ...prev,
-      touched: {
-        ...prev.touched,
-        [field]: true,
-      },
-    }));
-  }, []);
+  const handleBlur = useCallback(
+    (field: keyof T) => () => {
+      setState((prev) => ({
+        ...prev,
+        touched: {
+          ...prev.touched,
+          [field]: true,
+        },
+      }));
+    },
+    []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

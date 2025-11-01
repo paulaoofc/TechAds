@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { listingsService } from '../services/listingsService';
-import type { Listing } from '../services/listingsService';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { listingsService } from "../services/listingsService";
+import type { Listing } from "../services/listingsService";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -21,26 +21,26 @@ export default function Dashboard() {
       const userListings = data.filter((l) => l.ownerId === user?.id);
       setListings(userListings);
     } catch (error) {
-      console.error('Failed to load listings:', error);
+      console.error("Failed to load listings:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this listing?')) return;
+    if (!confirm("Are you sure you want to delete this listing?")) return;
 
     try {
       await listingsService.delete(id);
       setListings(listings.filter((l) => l.id !== id));
     } catch {
-      alert('Failed to delete listing');
+      alert("Failed to delete listing");
     }
   };
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -80,8 +80,12 @@ export default function Dashboard() {
         ) : listings.length === 0 ? (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
             <div className="text-6xl mb-4">📝</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No listings yet</h3>
-            <p className="text-gray-600 mb-6">Create your first job listing to get started!</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No listings yet
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Create your first job listing to get started!
+            </p>
             <Link
               to="/create-listing"
               className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
@@ -92,9 +96,16 @@ export default function Dashboard() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {listings.map((listing) => (
-              <div key={listing.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{listing.title}</h3>
-                <p className="text-gray-600 mb-4 line-clamp-2">{listing.shortDescription}</p>
+              <div
+                key={listing.id}
+                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+              >
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {listing.title}
+                </h3>
+                <p className="text-gray-600 mb-4 line-clamp-2">
+                  {listing.shortDescription}
+                </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {listing.tags.slice(0, 3).map((tag) => (
                     <span

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { listingsService } from '../services/listingsService';
-import type { Listing } from '../services/listingsService';
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { listingsService } from "../services/listingsService";
+import type { Listing } from "../services/listingsService";
 
 export default function ListingDetail() {
   const { id } = useParams<{ id: string }>();
@@ -24,8 +24,8 @@ export default function ListingDetail() {
       const data = await listingsService.getById(id);
       setListing(data);
     } catch {
-      alert('Failed to load listing');
-      navigate('/dashboard');
+      alert("Failed to load listing");
+      navigate("/dashboard");
     } finally {
       setLoading(false);
     }
@@ -35,19 +35,20 @@ export default function ListingDetail() {
     if (!id) return;
     try {
       await listingsService.apply(id);
-      alert('Application submitted successfully!');
+      alert("Application submitted successfully!");
     } catch {
-      alert('Failed to apply');
+      alert("Failed to apply");
     }
   };
 
   const handleDelete = async () => {
-    if (!id || !confirm('Are you sure you want to delete this listing?')) return;
+    if (!id || !confirm("Are you sure you want to delete this listing?"))
+      return;
     try {
       await listingsService.delete(id);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch {
-      alert('Failed to delete listing');
+      alert("Failed to delete listing");
     }
   };
 
@@ -63,8 +64,13 @@ export default function ListingDetail() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Listing not found</h2>
-          <Link to="/dashboard" className="text-indigo-600 hover:text-indigo-700 font-semibold">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Listing not found
+          </h2>
+          <Link
+            to="/dashboard"
+            className="text-indigo-600 hover:text-indigo-700 font-semibold"
+          >
             Back to Dashboard
           </Link>
         </div>
@@ -78,7 +84,10 @@ export default function ListingDetail() {
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link to="/dashboard" className="text-indigo-600 hover:text-indigo-700 font-semibold">
+          <Link
+            to="/dashboard"
+            className="text-indigo-600 hover:text-indigo-700 font-semibold"
+          >
             ← Back to Dashboard
           </Link>
         </div>
@@ -86,8 +95,10 @@ export default function ListingDetail() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">{listing.title}</h1>
-          
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {listing.title}
+          </h1>
+
           <div className="flex flex-wrap gap-2 mb-6">
             {listing.tags.map((tag) => (
               <span
@@ -100,12 +111,18 @@ export default function ListingDetail() {
           </div>
 
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">Description</h2>
-            <p className="text-gray-700 leading-relaxed">{listing.shortDescription}</p>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">
+              Description
+            </h2>
+            <p className="text-gray-700 leading-relaxed">
+              {listing.shortDescription}
+            </p>
           </div>
 
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-3">Requirements</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-3">
+              Requirements
+            </h2>
             <ul className="space-y-2">
               {listing.requirements.map((req, index) => (
                 <li key={index} className="flex items-start gap-2">

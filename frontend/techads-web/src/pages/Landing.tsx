@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Landing() {
   return (
@@ -31,8 +31,8 @@ export default function Landing() {
             Find Your Next Tech Opportunity
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Connect with top tech companies and discover job listings tailored for developers,
-            designers, and tech professionals.
+            Connect with top tech companies and discover job listings tailored
+            for developers, designers, and tech professionals.
           </p>
           <div className="flex gap-4 justify-center">
             <Link
@@ -56,21 +56,24 @@ export default function Landing() {
             <div className="text-4xl mb-4">🔍</div>
             <h3 className="text-xl font-semibold mb-2">Discover Jobs</h3>
             <p className="text-gray-600">
-              Browse through hundreds of tech job listings from companies worldwide.
+              Browse through hundreds of tech job listings from companies
+              worldwide.
             </p>
           </div>
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <div className="text-4xl mb-4">📝</div>
             <h3 className="text-xl font-semibold mb-2">Easy Applications</h3>
             <p className="text-gray-600">
-              Apply to jobs with a single click. No lengthy forms or repetitive information.
+              Apply to jobs with a single click. No lengthy forms or repetitive
+              information.
             </p>
           </div>
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <div className="text-4xl mb-4">🚀</div>
             <h3 className="text-xl font-semibold mb-2">Post Listings</h3>
             <p className="text-gray-600">
-              Companies can post job listings and reach thousands of qualified candidates.
+              Companies can post job listings and reach thousands of qualified
+              candidates.
             </p>
           </div>
         </div>

@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = "/api";
 
 export interface Listing {
   id: string;
@@ -18,9 +18,9 @@ export interface CreateListingData {
 }
 
 const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
     ...(token && { Authorization: `Bearer ${token}` }),
   };
 };
@@ -35,7 +35,7 @@ export const listingsService = {
   async getById(id: string): Promise<Listing> {
     const response = await fetch(`${API_BASE}/listings/${id}`);
     if (!response.ok) {
-      throw new Error('Listing not found');
+      throw new Error("Listing not found");
     }
     const data = await response.json();
     return data.listing;
@@ -43,28 +43,31 @@ export const listingsService = {
 
   async create(listing: CreateListingData): Promise<Listing> {
     const response = await fetch(`${API_BASE}/listings`, {
-      method: 'POST',
+      method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(listing),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create listing');
+      throw new Error("Failed to create listing");
     }
 
     const data = await response.json();
     return data.listing;
   },
 
-  async update(id: string, listing: Partial<CreateListingData>): Promise<Listing> {
+  async update(
+    id: string,
+    listing: Partial<CreateListingData>
+  ): Promise<Listing> {
     const response = await fetch(`${API_BASE}/listings/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: getAuthHeaders(),
       body: JSON.stringify(listing),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to update listing');
+      throw new Error("Failed to update listing");
     }
 
     const data = await response.json();
@@ -73,23 +76,23 @@ export const listingsService = {
 
   async delete(id: string): Promise<void> {
     const response = await fetch(`${API_BASE}/listings/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to delete listing');
+      throw new Error("Failed to delete listing");
     }
   },
 
   async apply(id: string): Promise<{ message: string; applicationId: string }> {
     const response = await fetch(`${API_BASE}/listings/${id}/apply`, {
-      method: 'POST',
+      method: "POST",
       headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to apply');
+      throw new Error("Failed to apply");
     }
 
     return response.json();

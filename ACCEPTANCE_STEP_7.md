@@ -3,16 +3,19 @@
 ## Step 7: Frontend (React + TypeScript + Tailwind) with Mocked API
 
 ### Overview
+
 This step implements a complete React frontend with TypeScript, Tailwind CSS, and Mock Service Worker (MSW) for API mocking. The application provides a full job listing platform with authentication, CRUD operations, and responsive design.
 
 ### Tasks Completed
 
 #### 1. ✅ Create Vite React + TypeScript App
+
 - **Location**: `/frontend/techads-web`
 - **Framework**: Vite 7.1.12 + React 18.2.0 + TypeScript 5.7.3
 - **Command Used**: `npm create vite@latest frontend/techads-web -- --template react-ts`
 
 #### 2. ✅ Add Tailwind CSS Configuration
+
 - **Files Created**:
   - `tailwind.config.js` - Tailwind configuration with content paths
   - `postcss.config.js` - PostCSS configuration with Tailwind plugin
@@ -20,6 +23,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 - **Version**: Tailwind CSS 3.4.17
 
 #### 3. ✅ Project Structure
+
 ```
 /src
   /pages          - Application pages (Landing, Login, Dashboard, etc.)
@@ -30,6 +34,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 ```
 
 #### 4. ✅ MSW (Mock Service Worker) Implementation
+
 - **Files**:
   - `src/mocks/handlers.ts` - API endpoint handlers with JWT simulation
   - `src/mocks/browser.ts` - MSW browser worker setup
@@ -46,12 +51,14 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 #### 5. ✅ Pages Implemented
 
 ##### Landing Page (`src/pages/Landing.tsx`)
+
 - Hero section with call-to-action buttons
 - Feature cards highlighting platform benefits
 - Responsive navigation header
 - Links to login/sign-in
 
 ##### Login Page (`src/pages/Login.tsx`)
+
 - Email and password form with validation
 - Integration with useForm hook
 - JWT token simulation via MSW
@@ -59,6 +66,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 - Redirects to dashboard on successful login
 
 ##### Dashboard Page (`src/pages/Dashboard.tsx`)
+
 - Protected route requiring authentication
 - Displays user's job listings
 - Create new listing button
@@ -67,6 +75,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 - Logout functionality
 
 ##### Create Listing Page (`src/pages/CreateListing.tsx`)
+
 - Protected route
 - Form with fields:
   - Job title
@@ -77,6 +86,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 - Dynamic requirement/tag management (add/remove)
 
 ##### Listing Detail Page (`src/pages/ListingDetail.tsx`)
+
 - Protected route
 - Full listing information display
 - Owner-specific actions (delete listing)
@@ -86,6 +96,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 #### 6. ✅ Reusable Hooks and Client-Side Validation
 
 ##### useForm Hook (`src/hooks/useForm.ts`)
+
 - Generic TypeScript implementation
 - Features:
   - Form state management
@@ -96,6 +107,7 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 - Used in Login and CreateListing pages
 
 ##### useAuth Hook (`src/hooks/useAuth.tsx`)
+
 - Authentication state management
 - Features:
   - JWT token storage (localStorage)
@@ -108,11 +120,13 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 #### 7. ✅ Services Layer
 
 ##### authService (`src/services/authService.ts`)
+
 - Login endpoint integration
 - Error handling
 - TypeScript interfaces for request/response
 
 ##### listingsService (`src/services/listingsService.ts`)
+
 - CRUD operations for listings
 - Application submission
 - Authorization header injection
@@ -121,12 +135,14 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 #### 8. ✅ Responsive Layout and Accessibility
 
 **Responsive Design**:
+
 - Mobile-first approach using Tailwind breakpoints (sm, md, lg)
 - Grid layouts that adapt: 1 column → 2 columns → 3 columns
 - Responsive padding and spacing
 - Touch-friendly button sizes
 
 **Accessibility Features**:
+
 - Semantic HTML elements (header, main, nav, button, form)
 - Proper label associations (htmlFor + id)
 - Focus states on all interactive elements
@@ -137,16 +153,16 @@ This step implements a complete React frontend with TypeScript, Tailwind CSS, an
 
 ### Technologies Used
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| React | 18.2.0 | UI framework |
-| TypeScript | 5.7.3 | Type safety |
-| Vite | 7.1.12 | Build tool and dev server |
-| Tailwind CSS | 3.4.17 | Utility-first CSS |
-| React Router DOM | 7.9.5 | Client-side routing |
-| MSW | 2.11.6 | API mocking |
-| PostCSS | 8.4.49 | CSS processing |
-| Autoprefixer | 10.4.20 | CSS vendor prefixes |
+| Technology       | Version | Purpose                   |
+| ---------------- | ------- | ------------------------- |
+| React            | 18.2.0  | UI framework              |
+| TypeScript       | 5.7.3   | Type safety               |
+| Vite             | 7.1.12  | Build tool and dev server |
+| Tailwind CSS     | 3.4.17  | Utility-first CSS         |
+| React Router DOM | 7.9.5   | Client-side routing       |
+| MSW              | 2.11.6  | API mocking               |
+| PostCSS          | 8.4.49  | CSS processing            |
+| Autoprefixer     | 10.4.20 | CSS vendor prefixes       |
 
 ### Authentication Flow
 
@@ -214,7 +230,7 @@ npm run preview
 6. **Login**: Use demo credentials (user@example.com / password)
 7. **Verify Redirect**: Should redirect to dashboard
 8. **Check Dashboard**: Should show "No listings yet" initially
-9. **Create Listing**: 
+9. **Create Listing**:
    - Click "Create Listing"
    - Fill form with title, description, requirements, tags
    - Submit and verify redirect to dashboard
@@ -225,11 +241,13 @@ npm run preview
 ### MSW Console Messages
 
 When running in development mode, you should see:
+
 ```
 [MSW] Mocking enabled.
 ```
 
 In the browser console, intercepted requests will show:
+
 ```
 [MSW] POST /api/auth/login (200 OK)
 [MSW] GET /api/listings (200 OK)
