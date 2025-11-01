@@ -26,10 +26,17 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var command = new AuthenticateUserCommand(request.Email, request.Password);
-        var user = await _mediator.Send(command);
-        var token = GenerateJwtToken(user);
-        return Ok(new { Token = token, User = user });
+        try
+        {
+            var command = new AuthenticateUserCommand(request.Email, request.Password);
+            var user = await _mediator.Send(command);
+            var token = GenerateJwtToken(user);
+            return Ok(new { Token = token, User = user });
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Unauthorized();
+        }
     }
 
     private string GenerateJwtToken(UserDto user)

@@ -3,23 +3,21 @@ using TechAds.Domain.Interfaces;
 using TechAds.Domain.Entities;
 using TechAds.Domain.ValueObjects;
 using TechAds.Application.DTOs;
+using TechAds.Application.Interfaces;
 
 namespace TechAds.Application.Commands.Handlers;
 
 public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, UserDto>
 {
-    private readonly IUserRepository _repository;
+    private readonly IAuthService _authService;
 
-    public AuthenticateUserCommandHandler(IUserRepository repository)
+    public AuthenticateUserCommandHandler(IAuthService authService)
     {
-        _repository = repository;
+        _authService = authService;
     }
 
     public async Task<UserDto> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
     {
-        var email = new Email(request.Email);
-        var user = await _repository.GetByEmailAsync(email);
-        if (user == null) throw new Exception("Invalid credentials");
-        return new UserDto { Id = user.Id, Email = user.Email.Value, DisplayName = user.DisplayName, Role = user.Role };
+        return await _authService.AuthenticateAsync(request.Email, request.Password);
     }
 }

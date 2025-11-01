@@ -3,6 +3,7 @@ using TechAds.Domain.Interfaces;
 using TechAds.Domain.Entities;
 using TechAds.Domain.ValueObjects;
 using TechAds.Domain.Enums;
+using BCrypt.Net;
 
 namespace TechAds.Infrastructure.Repositories;
 
@@ -36,7 +37,8 @@ public class EfUserRepository : IUserRepository
     public async Task AddAsync(User user)
     {
         var identityUser = new IdentityUser { Id = user.Id.ToString(), UserName = user.DisplayName, Email = user.Email.Value };
-        var result = await _userManager.CreateAsync(identityUser, "TempPassword123!");
+        identityUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword("TempPassword123!");
+        var result = await _userManager.CreateAsync(identityUser);
         await _userManager.AddToRoleAsync(identityUser, user.Role.ToString());
     }
 }

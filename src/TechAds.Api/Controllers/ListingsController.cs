@@ -23,7 +23,12 @@ public class ListingsController : ControllerBase
         var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var command = new CreateListingCommand(request.Title, request.ShortDescription, request.Requirements, request.Tags, userId);
         var id = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
+        
+        // Get the created listing
+        var query = new GetListingByIdQuery(id);
+        var listing = await _mediator.Send(query);
+        
+        return CreatedAtAction(nameof(GetById), new { id }, listing);
     }
 
     [HttpGet]
