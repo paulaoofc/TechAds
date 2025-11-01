@@ -1,4 +1,4 @@
-const API_BASE = "/api";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export interface Listing {
   id: string;
@@ -27,22 +27,23 @@ const getAuthHeaders = () => {
 
 export const listingsService = {
   async getAll(): Promise<Listing[]> {
-    const response = await fetch(`${API_BASE}/listings`);
+    const response = await fetch(`${API_BASE}/api/listings`);
     const data = await response.json();
-    return data.listings;
+    // Backend pode retornar array diretamente ou { listings: [...] }
+    return Array.isArray(data) ? data : data.listings || [];
   },
 
   async getById(id: string): Promise<Listing> {
-    const response = await fetch(`${API_BASE}/listings/${id}`);
+    const response = await fetch(`${API_BASE}/api/listings/${id}`);
     if (!response.ok) {
       throw new Error("Listing not found");
     }
     const data = await response.json();
-    return data.listing;
+    return data.listing || data;
   },
 
   async create(listing: CreateListingData): Promise<Listing> {
-    const response = await fetch(`${API_BASE}/listings`, {
+    const response = await fetch(`${API_BASE}/api/listings`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(listing),
@@ -53,7 +54,7 @@ export const listingsService = {
     }
 
     const data = await response.json();
-    return data.listing;
+    return data.listing || data;
   },
 
   async update(
