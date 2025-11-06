@@ -58,12 +58,26 @@ export default function Register() {
     },
     onSubmit: async (values) => {
       try {
-        // Simulate registration
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5025'}/api/auth/register-simple`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: values.name,
+            email: values.email,
+            password: values.password
+          })
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.Error || error.Errors?.join(', ') || 'Registration failed');
+        }
+
+        await response.json();
         alert(`Account created successfully! Welcome, ${values.name}!`);
         navigate("/login");
-      } catch {
-        alert("Registration failed");
+      } catch (error) {
+        alert(error instanceof Error ? error.message : "Registration failed");
       }
     },
   });

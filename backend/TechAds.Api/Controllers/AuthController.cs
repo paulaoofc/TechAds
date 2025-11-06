@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TechAds.Application.DTOs;
+using Microsoft.AspNetCore.Identity;
 
 namespace TechAds.Api.Controllers;
 
@@ -16,11 +17,39 @@ public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IConfiguration _configuration;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public AuthController(IMediator mediator, IConfiguration configuration)
+    public AuthController(IMediator mediator, IConfiguration configuration, UserManager<IdentityUser> userManager)
     {
         _mediator = mediator;
         _configuration = configuration;
+        _userManager = userManager;
+    }
+
+    [HttpPost("register-simple")]
+    public async Task<IActionResult> RegisterSimple([FromBody] RegisterRequest request)
+    {
+        try
+        {
+            var user = new IdentityUser
+            {
+                UserName = request.Email,
+                Email = request.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Errors = result.Errors.Select(e => e.Description) });
+            }
+
+            return Ok(new { Message = "User registered successfully", UserId = user.Id });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { Error = ex.Message });
+        }
     }
 
     [HttpPost("login")]
@@ -28,15 +57,38 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var command = new AuthenticateUserCommand(request.Email, request.Password);
-            var user = await _mediator.Send(command);
-            var token = GenerateJwtToken(user);
-            return Ok(new { Token = token, User = user });
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
+            {
+                return Unauthorized();
+            }
+
+            var token = GenerateJwtToken(new UserDto 
+            { 
+                Id = Guid.Parse(user.Id), 
+                Email = user.Email!, 
+                DisplayName = user.UserName!,
+                Role = TechAds.Domain.Enums.Role.Candidate // Default role
+            });
+
+            return Ok(new { Token = token, User = new UserDto 
+            { 
+                Id = Guid.Parse(user.Id), 
+                Email = user.Email!, 
+                DisplayName = user.UserName!,
+                Role = TechAds.Domain.Enums.Role.Candidate
+            }});
         }
-        catch (UnauthorizedAccessException)
+        catch (Exception ex)
         {
-            return Unauthorized();
+            return StatusCode(500, new { Error = ex.Message });
         }
+    }
+
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok(new { Message = "API is working!" });
     }
 
     private string GenerateJwtToken(UserDto user)
