@@ -1,11 +1,11 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5025";
 
 export interface Listing {
   id: string;
   title: string;
   shortDescription: string;
-  requirements: string[];
-  tags: string[];
+  requirements: string; // Backend retorna string
+  tags: { value: string }[]; // Backend retorna array de objetos com value
   ownerId: string;
   createdAt: string;
 }
@@ -13,8 +13,8 @@ export interface Listing {
 export interface CreateListingData {
   title: string;
   shortDescription: string;
-  requirements: string[];
-  tags: string[];
+  requirements: string; // Backend espera string, não array
+  tags: string[]; // Backend espera array de strings
 }
 
 const getAuthHeaders = () => {
@@ -61,7 +61,7 @@ export const listingsService = {
     id: string,
     listing: Partial<CreateListingData>
   ): Promise<Listing> {
-    const response = await fetch(`${API_BASE}/listings/${id}`, {
+    const response = await fetch(`${API_BASE}/api/listings/${id}`, {
       method: "PUT",
       headers: getAuthHeaders(),
       body: JSON.stringify(listing),
@@ -72,11 +72,11 @@ export const listingsService = {
     }
 
     const data = await response.json();
-    return data.listing;
+    return data.listing || data;
   },
 
   async delete(id: string): Promise<void> {
-    const response = await fetch(`${API_BASE}/listings/${id}`, {
+    const response = await fetch(`${API_BASE}/api/listings/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders(),
     });
@@ -86,11 +86,15 @@ export const listingsService = {
     }
   },
 
-  async apply(id: string): Promise<{ message: string; applicationId: string }> {
-    const response = await fetch(`${API_BASE}/listings/${id}/apply`, {
-      method: "POST",
-      headers: getAuthHeaders(),
-    });
+  async apply(id: string, message: string): Promise<{ id: string }> {
+    const response = await fetch(
+      `${API_BASE}/api/listings/${id}/applications`,
+      {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ message }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Failed to apply");

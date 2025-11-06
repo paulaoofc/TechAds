@@ -46,13 +46,15 @@ export default function CreateListing() {
         const listingData: CreateListingData = {
           title: values.title,
           shortDescription: values.shortDescription,
-          requirements: requirements.filter((r) => r.trim()),
+          requirements: requirements.filter((r) => r.trim()).join(", "), // Converte array para string
           tags,
         };
         await listingsService.create(listingData);
         navigate("/dashboard");
-      } catch {
-        alert("Failed to create listing");
+      } catch (error) {
+        alert(
+          error instanceof Error ? error.message : "Failed to create listing"
+        );
       }
     },
   });

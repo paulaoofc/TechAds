@@ -109,10 +109,10 @@ export default function Dashboard() {
                 <div className="flex flex-wrap gap-2 mb-4">
                   {listing.tags.slice(0, 3).map((tag) => (
                     <span
-                      key={tag}
+                      key={tag.value}
                       className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
                     >
-                      {tag}
+                      {tag.value}
                     </span>
                   ))}
                 </div>

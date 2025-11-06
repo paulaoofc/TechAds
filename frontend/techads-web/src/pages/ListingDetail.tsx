@@ -33,11 +33,14 @@ export default function ListingDetail() {
 
   const handleApply = async () => {
     if (!id) return;
+    const message = prompt("Why are you interested in this position?");
+    if (!message) return;
+
     try {
-      await listingsService.apply(id);
+      await listingsService.apply(id, message);
       alert("Application submitted successfully!");
-    } catch {
-      alert("Failed to apply");
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Failed to apply");
     }
   };
 
@@ -102,10 +105,10 @@ export default function ListingDetail() {
           <div className="flex flex-wrap gap-2 mb-6">
             {listing.tags.map((tag) => (
               <span
-                key={tag}
+                key={tag.value}
                 className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold"
               >
-                {tag}
+                {tag.value}
               </span>
             ))}
           </div>
@@ -123,14 +126,9 @@ export default function ListingDetail() {
             <h2 className="text-xl font-semibold text-gray-900 mb-3">
               Requirements
             </h2>
-            <ul className="space-y-2">
-              {listing.requirements.map((req, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <span className="text-indigo-600 font-bold">•</span>
-                  <span className="text-gray-700">{req}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="text-gray-700 leading-relaxed whitespace-pre-line">
+              {listing.requirements}
+            </div>
           </div>
 
           <div className="text-sm text-gray-500 mb-6">

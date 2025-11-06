@@ -58,19 +58,26 @@ export default function Register() {
     },
     onSubmit: async (values) => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5025'}/api/auth/register-simple`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: values.name,
-            email: values.email,
-            password: values.password
-          })
-        });
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_API_URL || "http://localhost:5025"
+          }/api/auth/register-simple`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: values.name,
+              email: values.email,
+              password: values.password,
+            }),
+          }
+        );
 
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error.Error || error.Errors?.join(', ') || 'Registration failed');
+          throw new Error(
+            error.Error || error.Errors?.join(", ") || "Registration failed"
+          );
         }
 
         await response.json();
