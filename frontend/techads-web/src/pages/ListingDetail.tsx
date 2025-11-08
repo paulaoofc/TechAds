@@ -12,24 +12,20 @@ export default function ListingDetail() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      loadListing();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  const loadListing = async () => {
-    if (!id) return;
-    try {
-      const data = await listingsService.getById(id);
-      setListing(data);
-    } catch {
-      alert("Failed to load listing");
-      navigate("/dashboard");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const loadListing = async () => {
+      if (!id) return;
+      try {
+        const data = await listingsService.getById(id);
+        setListing(data);
+      } catch {
+        alert("Failed to load listing");
+        navigate("/dashboard");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadListing();
+  }, [id, navigate]);
 
   const handleApply = async () => {
     if (!id) return;
@@ -57,7 +53,7 @@ export default function ListingDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
@@ -65,7 +61,7 @@ export default function ListingDetail() {
 
   if (!listing) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Listing not found

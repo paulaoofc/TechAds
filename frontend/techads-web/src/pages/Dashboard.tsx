@@ -11,21 +11,14 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadListings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const loadListings = async () => {
-    try {
+    const loadListings = async () => {
       const data = await listingsService.getAll();
       const userListings = data.filter((l) => l.ownerId === user?.id);
       setListings(userListings);
-    } catch (error) {
-      console.error("Failed to load listings:", error);
-    } finally {
       setLoading(false);
-    }
-  };
+    };
+    loadListings();
+  }, [user?.id]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this listing?")) return;
@@ -45,7 +38,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
@@ -69,7 +61,6 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">My Listings</h2>
 

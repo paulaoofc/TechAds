@@ -46,7 +46,7 @@ export default function CreateListing() {
         const listingData: CreateListingData = {
           title: values.title,
           shortDescription: values.shortDescription,
-          requirements: requirements.filter((r) => r.trim()).join(", "), // Converte array para string
+          requirements: requirements.filter((r) => r.trim()).join(", "),
           tags,
         };
         await listingsService.create(listingData);

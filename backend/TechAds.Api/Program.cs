@@ -12,8 +12,6 @@ using TechAds.Application.Commands;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddDbContext<TechAdsDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<TechAdsDbContext>().AddDefaultTokenProviders();
@@ -47,7 +45,6 @@ builder.Services.AddScoped<IAuthService, TechAds.Infrastructure.Services.JwtAuth
 
 builder.Services.AddControllers();
 
-// Add CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -63,17 +60,12 @@ builder.Logging.AddConsole();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // app.MapOpenApi();
-    // app.UseSwagger();
-    // app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-// Enable CORS
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();

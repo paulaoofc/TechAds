@@ -28,8 +28,6 @@ export const authService = {
     }
 
     const data = await response.json();
-    // Backend retorna: { Token: "...", User: {...} }
-    // Frontend espera: { token: "...", user: {...} }
     return {
       token: data.token || data.Token,
       user: data.user || data.User,

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 export default function Landing() {
   return (
     <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-indigo-600">TechAds</h1>
@@ -24,7 +23,6 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
           <h2 className="text-5xl font-bold text-gray-900 mb-6">
@@ -50,7 +48,6 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Features */}
         <div id="features" className="mt-32 grid md:grid-cols-3 gap-8">
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <div className="text-4xl mb-4">🔍</div>
@@ -79,7 +76,6 @@ export default function Landing() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="bg-white mt-20 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600">
           <p>&copy; 2025 TechAds. All rights reserved.</p>

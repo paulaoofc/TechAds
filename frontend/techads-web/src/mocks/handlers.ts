@@ -1,6 +1,5 @@
 import { http, HttpResponse } from "msw";
 
-// Mock data
 const mockListings = [
   {
     id: "1",
@@ -26,7 +25,6 @@ const mockListings = [
 let nextId = 3;
 
 export const handlers = [
-  // Auth endpoints
   http.post("/api/auth/login", async ({ request }) => {
     const body = (await request.json()) as { email: string; password: string };
 
@@ -133,8 +131,7 @@ export const handlers = [
     return HttpResponse.json({ message: "Listing deleted" });
   }),
 
-  // Application endpoint
-  http.post("/api/listings/:id/apply", ({ request, params }) => {
+  http.post("/api/listings/:id/applications", async ({ request, params }) => {
     const authHeader = request.headers.get("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });

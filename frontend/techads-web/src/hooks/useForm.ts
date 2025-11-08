@@ -54,7 +54,6 @@ export function useForm<T extends Record<string, unknown>>({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Mark all fields as touched
     const allTouched = Object.keys(state.values).reduce(
       (acc, key) => ({ ...acc, [key]: true }),
       {}
@@ -65,7 +64,6 @@ export function useForm<T extends Record<string, unknown>>({
       touched: allTouched,
     }));
 
-    // Validate
     if (validate) {
       const errors = validate(state.values);
       setState((prev) => ({ ...prev, errors }));
@@ -75,7 +73,6 @@ export function useForm<T extends Record<string, unknown>>({
       }
     }
 
-    // Submit
     setState((prev) => ({ ...prev, isSubmitting: true }));
     try {
       await onSubmit(state.values);

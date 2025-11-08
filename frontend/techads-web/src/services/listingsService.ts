@@ -4,8 +4,8 @@ export interface Listing {
   id: string;
   title: string;
   shortDescription: string;
-  requirements: string; // Backend retorna string
-  tags: { value: string }[]; // Backend retorna array de objetos com value
+  requirements: string;
+  tags: { value: string }[];
   ownerId: string;
   createdAt: string;
 }
@@ -13,8 +13,8 @@ export interface Listing {
 export interface CreateListingData {
   title: string;
   shortDescription: string;
-  requirements: string; // Backend espera string, não array
-  tags: string[]; // Backend espera array de strings
+  requirements: string;
+  tags: string[];
 }
 
 const getAuthHeaders = () => {
@@ -29,7 +29,6 @@ export const listingsService = {
   async getAll(): Promise<Listing[]> {
     const response = await fetch(`${API_BASE}/api/listings`);
     const data = await response.json();
-    // Backend pode retornar array diretamente ou { listings: [...] }
     return Array.isArray(data) ? data : data.listings || [];
   },
 

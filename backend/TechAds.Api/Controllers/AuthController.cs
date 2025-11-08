@@ -68,7 +68,7 @@ public class AuthController : ControllerBase
                 Id = Guid.Parse(user.Id), 
                 Email = user.Email!, 
                 DisplayName = user.UserName!,
-                Role = TechAds.Domain.Enums.Role.Candidate // Default role
+                Role = TechAds.Domain.Enums.Role.Candidate
             });
 
             return Ok(new { Token = token, User = new UserDto 
