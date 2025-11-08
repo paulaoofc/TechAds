@@ -4,9 +4,13 @@ import { useForm } from "../hooks/useForm";
 import { listingsService } from "../services/listingsService";
 import type { CreateListingData } from "../services/listingsService";
 
-interface FormValues extends CreateListingData {
+interface FormValues {
+  title: string;
+  shortDescription: string;
+  requirements: string;
+  tags: string[];
   tagInput: string;
-  [key: string]: string | string[];
+  [key: string]: unknown;
 }
 
 export default function CreateListing() {
@@ -26,8 +30,8 @@ export default function CreateListing() {
     initialValues: {
       title: "",
       shortDescription: "",
-      requirements: [],
-      tags: [],
+      requirements: "",
+      tags: [] as string[],
       tagInput: "",
     },
     validate: (values) => {
