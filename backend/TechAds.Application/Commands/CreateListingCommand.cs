@@ -1,8 +1,9 @@
 using MediatR;
+using TechAds.Application.Common;
 
 namespace TechAds.Application.Commands;
 
-public class CreateListingCommand : IRequest<Guid>
+public class CreateListingCommand : IRequest<Result<Guid>>
 {
     public string Title { get; }
     public string ShortDescription { get; }

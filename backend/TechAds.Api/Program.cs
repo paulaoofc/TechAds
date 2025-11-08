@@ -9,8 +9,12 @@ using TechAds.Domain.Interfaces;
 using TechAds.Infrastructure.Repositories;
 using MediatR;
 using TechAds.Application.Commands;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load environment variables from .env file
+builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddDbContext<TechAdsDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -37,6 +41,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateListingCommand).Assembly));
+
+builder.Services.AddValidatorsFromAssembly(typeof(CreateListingCommand).Assembly);
 
 builder.Services.AddScoped<IProjectListingRepository, EfProjectListingRepository>();
 builder.Services.AddScoped<IApplicationRepository, EfApplicationRepository>();

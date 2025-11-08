@@ -1,8 +1,9 @@
 using MediatR;
+using TechAds.Application.Common;
 
 namespace TechAds.Application.Commands;
 
-public class UpdateListingCommand : IRequest<Unit>
+public class UpdateListingCommand : IRequest<Result>
 {
     public Guid Id { get; }
     public string Title { get; }

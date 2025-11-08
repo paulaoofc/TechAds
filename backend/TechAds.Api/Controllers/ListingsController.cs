@@ -5,6 +5,7 @@ using TechAds.Application.Queries;
 using TechAds.Application.Commands;
 using TechAds.Api.DTOs;
 using System.Security.Claims;
+using TechAds.Application.Common;
 
 namespace TechAds.Api.Controllers;
 
@@ -22,13 +23,16 @@ public class ListingsController : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var command = new CreateListingCommand(request.Title, request.ShortDescription, request.Requirements, request.Tags, userId);
-        var id = await _mediator.Send(command);
-        
+        var result = await _mediator.Send(command);
+
+        if (!result.IsSuccess)
+            return BadRequest(result.Error);
+
         // Get the created listing
-        var query = new GetListingByIdQuery(id);
+        var query = new GetListingByIdQuery(result.Value);
         var listing = await _mediator.Send(query);
-        
-        return CreatedAtAction(nameof(GetById), new { id }, listing);
+
+        return CreatedAtAction(nameof(GetById), new { id = result.Value }, listing);
     }
 
     [HttpGet]
@@ -54,7 +58,11 @@ public class ListingsController : ControllerBase
     {
         var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         var command = new SubmitApplicationCommand(id, userId, request.Message);
-        var appId = await _mediator.Send(command);
-        return Created("", new { Id = appId });
+        var result = await _mediator.Send(command);
+
+        if (!result.IsSuccess)
+            return BadRequest(result.Error);
+
+        return Created("", new { Id = result.Value });
     }
 }

@@ -1,8 +1,9 @@
 using MediatR;
+using TechAds.Application.Common;
 
 namespace TechAds.Application.Commands;
 
-public class SubmitApplicationCommand : IRequest<Guid>
+public class SubmitApplicationCommand : IRequest<Result<Guid>>
 {
     public Guid ProjectListingId { get; }
     public Guid CandidateUserId { get; }

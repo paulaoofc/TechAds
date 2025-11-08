@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import { listingsService } from "../services/listingsService";
 import type { CreateListingData } from "../services/listingsService";
+import TagInput from "../components/TagInput";
+import RequirementsInput from "../components/RequirementsInput";
 
 interface FormValues {
   title: string;
@@ -154,90 +156,26 @@ export default function CreateListing() {
             )}
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Requirements
-            </label>
-            {requirements.map((req, index) => (
-              <div key={index} className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  value={req}
-                  onChange={(e) => updateRequirement(index, e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-                  placeholder="e.g., 5+ years React experience"
-                />
-                {requirements.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeRequirement(index)}
-                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addRequirement}
-              className="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-            >
-              Add Requirement
-            </button>
-            {errors.requirements && (
-              <p className="mt-1 text-sm text-red-600">{errors.requirements}</p>
-            )}
-          </div>
+          <RequirementsInput
+            requirements={requirements}
+            onUpdateRequirement={updateRequirement}
+            onAddRequirement={addRequirement}
+            onRemoveRequirement={removeRequirement}
+          />
+          {errors.requirements && (
+            <p className="mt-1 text-sm text-red-600">{errors.requirements}</p>
+          )}
 
-          <div>
-            <label
-              htmlFor="tagInput"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Tags
-            </label>
-            <div className="flex gap-2 mb-2">
-              <input
-                id="tagInput"
-                type="text"
-                value={values.tagInput}
-                onChange={(e) => handleChange("tagInput")(e.target.value)}
-                onKeyPress={(e) =>
-                  e.key === "Enter" && (e.preventDefault(), addTag())
-                }
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-                placeholder="e.g., React, Remote"
-              />
-              <button
-                type="button"
-                onClick={addTag}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-              >
-                Add
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm flex items-center gap-2"
-                >
-                  {tag}
-                  <button
-                    type="button"
-                    onClick={() => removeTag(tag)}
-                    className="hover:text-indigo-900"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-            {errors.tags && (
-              <p className="mt-1 text-sm text-red-600">{errors.tags}</p>
-            )}
-          </div>
+          <TagInput
+            tags={tags}
+            tagInput={values.tagInput}
+            onTagInputChange={(value) => handleChange("tagInput")(value)}
+            onAddTag={addTag}
+            onRemoveTag={removeTag}
+          />
+          {errors.tags && (
+            <p className="mt-1 text-sm text-red-600">{errors.tags}</p>
+          )}
 
           <button
             type="submit"

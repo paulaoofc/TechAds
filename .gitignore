@@ -8,6 +8,10 @@ packages/
 *.log
 *.tmp
 *.cache
+
+# Environment variables
+.env
+backend/TechAds.Api/.env
 *.pdb
 *.exe
 *.dll
