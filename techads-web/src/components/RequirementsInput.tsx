@@ -1,5 +1,3 @@
-
-
 interface RequirementsInputProps {
   requirements: string[];
   onUpdateRequirement: (index: number, value: string) => void;
